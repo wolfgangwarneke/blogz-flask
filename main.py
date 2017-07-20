@@ -1,5 +1,5 @@
 from flask import request, redirect, render_template, session, flash, url_for
-from sqlalchemy import exc
+from sqlalchemy import exc, func
 
 from app import app, db
 from models import User, Post
@@ -134,6 +134,21 @@ def all_users():
 def user(username):
     user = get_user(username)
     return render_template('posts.html', posts=user.posts, author=user.username)
+
+@app.route("/search")
+def search():
+    query = request.args.get("query")
+    if not query:
+        return render_template('search.html')
+    else:
+        user_results = User.query.filter(func.lower(User.username) == func.lower(query)).all()
+        post_results = Post.query.filter_by(published=True).filter(func.lower(Post.title) == func.lower(query)).all()
+        args = {"query": query}
+        if user_results:
+            args["users"] = user_results
+        if post_results:
+            args["posts"] = post_results
+        return render_template('search.html', **args)
 
 
 # DEVELOPMENT ROUTES
