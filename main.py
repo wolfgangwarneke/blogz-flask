@@ -103,6 +103,11 @@ def new_post(username):
 
 # PUBLIC BROWSING ROUTES
 
+@app.route("/posts")
+def all_posts():
+    posts = Post.query.filter_by(published=True).all()
+    return render_template('posts.html', posts=posts)
+
 # DEVELOPMENT ROUTES
 
 @app.route("/dbinit")
