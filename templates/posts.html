@@ -3,6 +3,9 @@
 {% block content %}
 
 {% if posts %}
+  {% if author %}
+    <h3>Posts by {{author}}</h3>
+  {% endif %}
   <ul>
   {% for post in posts %}
     <li>{{post.title}}: {{post.content|truncate(54)}}</li>

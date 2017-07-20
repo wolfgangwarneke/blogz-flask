@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if users %}
+  <div class="users">
+    {% for user in users %}
+    <div>
+      {{loop.index}} {{user.username}}
+    </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <h1>No users yet!</h1>
+  <h2><a href="/register">Sign up</a> and tell your friends!</h2>
+{% endif %}
+
+{% endblock %}

@@ -8,15 +8,18 @@ from models import User, Post
 def get_current_user():
     try:
         current_username = session['username']
-        user = User.query.filter_by(username=current_username).first()
-        if user:
-            return user
-        else:
-            flash("User not found", "server error")
-            print("No user by that name found.")
+        get_user(current_username)
     except KeyError:
         flash("No one is logged in", "server error")
         print("No one is logged in.")
+
+def get_user(username):
+    user = User.query.filter_by(username=username).first()
+    if user:
+        return user
+    else:
+        flash("User not found", "server error")
+        print("No user by that name found.")
 
 # HOME ROUTE
 
@@ -107,6 +110,17 @@ def new_post(username):
 def all_posts():
     posts = Post.query.filter_by(published=True).all()
     return render_template('posts.html', posts=posts)
+
+@app.route("/users")
+def all_users():
+    users = User.query.all()
+    return render_template('users.html', users=users)
+
+@app.route("/user/<username>")
+def user(username):
+    user = get_user(username)
+    return render_template('posts.html', posts=user.posts, author=user.username)
+
 
 # DEVELOPMENT ROUTES
 
