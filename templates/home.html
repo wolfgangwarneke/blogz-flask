@@ -1,13 +1,8 @@
-{% extends "base.html" %}
+{% extends "users.html" %}
 
-{% block content %}
+{% block index %}
 
-<div class="users">
-  {% for user in users %}
-  <div>
-    {{loop.index}} {{user.username}}
-  </div>
-  {% endfor %}
-</div>
+<h1>Welcome to the Blogz site</h1>
+<h3>Here are some users to check out</h3>
 
 {% endblock %}

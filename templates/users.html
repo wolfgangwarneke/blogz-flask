@@ -2,11 +2,15 @@
 
 {% block content %}
 
+  {% block index %}
+
+  {% endblock %}
+
 {% if users %}
   <div class="users">
     {% for user in users %}
     <div>
-      {{loop.index}} {{user.username}}
+      {{loop.index}}. <a href="/user/{{user.username}}">{{user.username}}</a>
     </div>
     {% endfor %}
   </div>

@@ -27,7 +27,7 @@ def get_user(username):
 @app.route("/")
 @app.route("/home")
 def index():
-    users = User.query.limit(5).all()
+    users = User.query.limit(20).all()
     # encoded_error = request.args.get("error")
     return render_template('home.html', users=users)
 
@@ -54,6 +54,7 @@ def logout():
         del session['username']
     except KeyError:
         flash("You are already logged out!", "error")
+    flash("Log in again?", "suggestion")
     return render_template('login.html')
 
 @app.route("/register", methods=["GET", "POST"])
