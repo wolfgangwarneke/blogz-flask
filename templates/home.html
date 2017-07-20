@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="users">
+  {% for user in users %}
+  <div>
+    {{loop.index}} {{user.username}}
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

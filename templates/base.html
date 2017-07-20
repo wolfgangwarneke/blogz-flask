@@ -10,24 +10,38 @@
       <h1>Blogz</h1>
       <nav>
         <ul>
-          <li></li>
+          <a href="/users"><li>Users</li></a>
+          <a href="/posts"><li>Posts</li></a>
+          {% if session['username'] %}
+          <a href="/newpost"><li>New Post</li></a>
+          {% endif %}
         </ul>
       </nav>
-      <div class="flashes-container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <ul class="flashes">
-            {% for category, message in messages %}
-              <li class="{{ category }}">{{ category|upper }}: {{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
-      </div>
+      <nav class="login">
       {% if session['username'] %}
-        Logged in as {{ session['username'] }}
+        <ul>
+          <li>Logged in as {{ session['username'] }}</li>
+          <a href="/logout"><li>Logout</li></a>
+        </ul>
+      {% else %}
+        <ul>
+          <a href="/login"><li>Login</li></a>
+          <a href="/register"><li>Register</li></a>
+        </ul>
       {% endif %}
+      </nav>
     </header>
+    <div class="flashes-container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ category|upper }}: {{ message }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+    </div>
     <p>{{helloworld}}</p>
     {% block content %}
     {% endblock %}
