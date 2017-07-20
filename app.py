@@ -7,3 +7,5 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:blogpass@localhos
 app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
+
+app.secret_key = "test_key"
