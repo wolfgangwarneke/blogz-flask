@@ -116,6 +116,15 @@ def all_posts():
     posts = Post.query.filter_by(published=True).all()
     return render_template('posts.html', posts=posts)
 
+@app.route("/post/<int:id>")
+def post(id):
+    post = Post.query.filter_by(id=id).first()
+    if post:
+        return render_template('post.html', post=post)
+    else:
+        flash("Post not found", "error")
+        return redirect("/")
+
 @app.route("/users")
 def all_users():
     users = User.query.all()

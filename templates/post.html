@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if post %}
+  <h2>{{post.title}}</h2>
+  <h5>by <a href="/user/{{post.owner.username}}">{{post.owner.username}}</a></h5>
+  <p>{{post.content}}</p>
+{% endif %}
+
+{% endblock %}
