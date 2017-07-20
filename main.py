@@ -8,7 +8,7 @@ from models import User, Post
 def get_current_user():
     try:
         current_username = session['username']
-        get_user(current_username)
+        return get_user(current_username)
     except KeyError:
         flash("No one is logged in", "server error")
         print("No one is logged in.")
