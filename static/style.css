@@ -1,3 +1,14 @@
 body {
-  color: pink;
+  background-color: #7FAA94;
+  background-color: #ddd;
+  color: #216241;
+  font-family: monospace;
+}
+
+a:link {
+  color: #BBC679;
+}
+
+a:visited {
+  color: #578F73;
 }
