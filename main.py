@@ -42,19 +42,21 @@ def login():
         username = request.form['username']
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
-        if user:
+        if user and password == user.password:
             session['username'] = user.username
-            return "You are logged in now as {}.".format(user.username)
+            flash("Successfully logged in as {}.".format(user.username), "success")
+            return redirect("/user/{}".format(user.username))
         else:
-            return render_template('login.html', helloworld="NOT FOUND")
+            flash("User not found.", "error")
+            return render_template('login.html')
 
 @app.route("/logout")
 def logout():
     try:
         del session['username']
+        flash("Log in again?", "suggestion")
     except KeyError:
         flash("You are already logged out!", "error")
-    flash("Log in again?", "suggestion")
     return render_template('login.html')
 
 @app.route("/register", methods=["GET", "POST"])
@@ -69,7 +71,8 @@ def register():
             db.session.add(new_user)
             try:
                 db.session.commit()
-                return "Registered as {}".format(new_user.username)
+                flash("Registered as {}".format(new_user.username), "success")
+                return render_template("login.html")
             except exc.SQLAlchemyError:
                 flash("Unable to add user", "error")
                 # TODO return form values
@@ -152,6 +155,7 @@ def search():
 
 
 # DEVELOPMENT ROUTES
+# NEVER PUT THIS INTO PRODUCTION!!!
 
 @app.route("/dbinit")
 def dbinit():
