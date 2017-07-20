@@ -21,6 +21,7 @@ def get_user(username):
         flash("User not found", "server error")
         print("No user by that name found.")
 
+
 # HOME ROUTE
 
 @app.route("/")
@@ -29,6 +30,7 @@ def index():
     users = User.query.limit(5).all()
     # encoded_error = request.args.get("error")
     return render_template('home.html', users=users)
+
 
 # USER REGISTRATION/LOGIN ROUTES
 
@@ -85,6 +87,7 @@ def register():
     else:
         return render_template('register.html')
 
+
 # USER SPECIFIC ROUTES
 
 @app.route("/user/<username>/newpost", methods=["GET", "POST"])
@@ -103,6 +106,7 @@ def new_post(username):
         else:
             flash("You are not logged in as {}.".format(username), "error")
             return redirect(url_for('/users/{}'.format(username)))
+
 
 # PUBLIC BROWSING ROUTES
 
@@ -129,6 +133,7 @@ def dbinit():
     db.drop_all()
     db.create_all()
     return "DB INIT!"
+
 
 if __name__ == "__main__":
     print("Hello World")
