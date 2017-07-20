@@ -29,7 +29,7 @@ def logout():
     try:
         del session['username']
     except KeyError:
-        return "You are already logged out!"
+        flash("You are already logged out!", "error")
     return render_template('login.html')
 
 @app.route("/register", methods=["GET", "POST"])

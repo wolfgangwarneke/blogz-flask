@@ -13,6 +13,17 @@
           <li></li>
         </ul>
       </nav>
+      <div class="flashes-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+              <li class="{{ category }}">{{ category|upper }}: {{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+      </div>
       {% if session['username'] %}
         Logged in as {{ session['username'] }}
       {% endif %}
