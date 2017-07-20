@@ -6,7 +6,17 @@
     <title></title>
   </head>
   <body>
-    <h1>Blogz</h1>
+    <header>
+      <h1>Blogz</h1>
+      <nav>
+        <ul>
+          <li></li>
+        </ul>
+      </nav>
+      {% if session['username'] %}
+        Logged in as {{ session['username'] }}
+      {% endif %}
+    </header>
     <p>{{helloworld}}</p>
     {% block content %}
     {% endblock %}

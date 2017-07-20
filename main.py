@@ -6,6 +6,7 @@ from models import User
 
 @app.route("/")
 def index():
+    print(session)
     # encoded_error = request.args.get("error")
     return render_template('base.html', helloworld="Hello World")
 
@@ -25,7 +26,11 @@ def login():
 
 @app.route("/logout")
 def logout():
-    pass
+    try:
+        del session['username']
+    except KeyError:
+        return "You are already logged out!"
+    return render_template('login.html')
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
