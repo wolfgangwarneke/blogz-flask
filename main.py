@@ -111,6 +111,21 @@ def new_post(username):
             flash("You are not logged in as {}.".format(username), "error")
             return redirect(url_for('/users/{}'.format(username)))
 
+@app.route("/post/<int:id>/update", methods=["POST"])
+def update_post(id):
+    try:
+        publish = request.form['publish']
+        post = Post.query.filter_by(id=id).first()
+        if post:
+            post.published = not post.published
+            db.session.commit()
+            return redirect("/post/{}".format(id))
+        else:
+            flash("Post not found", "error")
+            return redirect('/')
+
+    except AttributeError:
+        return "can't publish or unpublish..."
 
 # PUBLIC BROWSING ROUTES
 
