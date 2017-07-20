@@ -1,8 +1,24 @@
-from flask import request, redirect, render_template, session, flash
+from flask import request, redirect, render_template, session, flash, url_for
 from sqlalchemy import exc
 
 from app import app, db
-from models import User
+from models import User, Post
+
+# helper functions...
+def get_current_user():
+    try:
+        current_username = session['username']
+        user = User.query.filter_by(username=current_username).first()
+        if user:
+            return user
+        else:
+            flash("User not found", "server error")
+            print("No user by that name found.")
+    except KeyError:
+        flash("No one is logged in", "server error")
+        print("No one is logged in.")
+
+# HOME ROUTE
 
 @app.route("/")
 @app.route("/home")
@@ -10,6 +26,8 @@ def index():
     users = User.query.limit(5).all()
     # encoded_error = request.args.get("error")
     return render_template('home.html', users=users)
+
+# USER REGISTRATION/LOGIN ROUTES
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -63,6 +81,29 @@ def register():
             return render_template('register.html')
     else:
         return render_template('register.html')
+
+# USER SPECIFIC ROUTES
+
+@app.route("/user/<username>/newpost", methods=["GET", "POST"])
+def new_post(username):
+    if request.method == "POST":
+        title = request.form['title']
+        content = request.form['content']
+        if title and content:
+            new_post = Post(title, content, get_current_user())
+            db.session.add(new_post)
+            db.session.commit()
+            return redirect('/')
+    else: # GET REQUEST
+        if username == session['username']:
+            return render_template('createpost.html')
+        else:
+            flash("You are not logged in as {}.".format(username), "error")
+            return redirect(url_for('/users/{}'.format(username)))
+
+# PUBLIC BROWSING ROUTES
+
+# DEVELOPMENT ROUTES
 
 @app.route("/dbinit")
 def dbinit():

@@ -14,7 +14,7 @@
           <a href="/posts"><li>Posts</li></a>
           {% if session['username'] %}
           <a href="/user/{{session['username']}}"><li>My Posts</li></a>
-          <a href="/newpost"><li>New Post</li></a>
+          <a href="/user/{{session['username']}}/newpost"><li>New Post</li></a>
           {% endif %}
         </ul>
       </nav>
