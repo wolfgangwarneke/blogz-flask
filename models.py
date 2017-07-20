@@ -19,12 +19,14 @@ class Post(db.Model):
     content = db.Column(db.String(2000))
     published = db.Column(db.Boolean)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    visits = db.Column(db.Integer)
 
     def __init__(self, title, content, owner):
         self.title = title
         self.content = content
         self.published = False
         self.owner = owner
+        self.visits = 0
 
     def __repr__(self):
         return '<Post "%r">' % self.title

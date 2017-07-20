@@ -21,6 +21,14 @@ def get_user(username):
         flash("User not found", "server error")
         print("No user by that name found.")
 
+def get_current_username():
+    try:
+        current_username = session['username']
+        return current_username
+    except KeyError:
+        print('No one is logged in right now')
+        return ""
+
 
 # HOME ROUTE
 
@@ -138,6 +146,9 @@ def all_posts():
 def post(id):
     post = Post.query.filter_by(id=id).first()
     if post:
+        if post.owner.username is not get_current_username():
+            post.visits += 1
+            db.session.commit()
         return render_template('post.html', post=post)
     else:
         flash("Post not found", "error")
