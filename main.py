@@ -3,6 +3,7 @@ from sqlalchemy import exc, func
 
 from app import app, db
 from models import User, Post
+from hashutils import make_pw_hash, check_pw_hash
 
 # helper functions...
 def get_current_user():
@@ -50,7 +51,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
-        if user and password == user.password:
+        if user and check_pw_hash(password, user.password):
             session['username'] = user.username
             flash("Successfully logged in as {}.".format(user.username), "success")
             return redirect("/user/{}".format(user.username))
@@ -75,7 +76,7 @@ def register():
         password_confirm = request.form['password-confirm']
         if password == password_confirm and not User.query.filter_by(username=username).first() and len(username) > 3:
             # TODO create user
-            new_user = User(username, password)
+            new_user = User(username, make_pw_hash(password))
             db.session.add(new_user)
             try:
                 db.session.commit()
