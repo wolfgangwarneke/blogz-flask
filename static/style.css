@@ -57,6 +57,10 @@ label {
   color: black;
 }
 
+.midgrey {
+  color: #888;
+}
+
 .smaller {
   font-size: 1.4rem;
 }

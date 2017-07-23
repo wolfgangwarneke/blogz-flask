@@ -14,7 +14,7 @@
         <h5 class="float-right">Check out who else uses <span class="logo">Blogz</span></h5>
         {% for user in users %}
         <div>
-          {{loop.index}}. <a href="/user/{{user.username}}">{{user.username}}</a>
+          {{loop.index}}. <a href="/user/{{user.username}}">{{user.username}}</a> <span class="font-italic px-2 midgrey">{{user.posts|length}} posts</span>
         </div>
         {% endfor %}
       </div>
