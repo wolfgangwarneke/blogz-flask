@@ -2,22 +2,84 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/style.css">
     <title></title>
   </head>
   <body>
-    <header>
-      <h1>Blogz</h1>
-      <nav>
-        <ul>
-          <a href="/users"><li>Users</li></a>
-          <a href="/posts"><li>Posts</li></a>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right hidden-lg-up collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">Blogz</a>
+
+      <div class="navbar-collapse collapse" id="navbarsExampleDefault" aria-expanded="false">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
           {% if session['username'] %}
-          <a href="/user/{{session['username']}}"><li>My Posts</li></a>
-          <a href="/user/{{session['username']}}/newpost"><li>New Post</li></a>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/{{session['username']}}">My Posts <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/{{session['username']}}/newpost">New Post <span class="sr-only">(current)</span></a>
+          </li>
           {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="#">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Posts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Help</a>
+          </li>
         </ul>
-      </nav>
+          {% if session['username'] %}
+            <span class="navbar-text mx-auto justify-content-center">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">Logged in as {{ session['username'] }}</li>
+                <a href="/logout"><li class="nav-item">Logout</li></a>
+              </ul>
+            </span>
+          {% else %}
+            <span class="navbar-text mx-auto justify-content-center">
+              <a href="/login">Login</a>
+              <a href="/register">Register</a>
+            </span>
+          {% endif %}
+        <form action="/search" method="get" class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" name="query" placeholder="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+
+
+
+
+    {#
+    <header class="navbar navbar-inverse bg-primary">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">Blogz</a>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <nav>
+          <ul class="navbar-nav mr-auto">
+            <a href="/users"><li class="nav-item">Users</li></a>
+            <a href="/posts"><li class="nav-item">Posts</li></a>
+            {% if session['username'] %}
+            <a href="/user/{{session['username']}}"><li class="nav-item">My Posts</li></a>
+            <a href="/user/{{session['username']}}/newpost"><li class="nav-item">New Post</li></a>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
       <div class="searchbar">
         <form class="" action="/search" method="get">
           <input type="text" name="query" value="">
@@ -26,9 +88,9 @@
       </div>
       <nav class="login">
       {% if session['username'] %}
-        <ul>
-          <li>Logged in as {{ session['username'] }}</li>
-          <a href="/logout"><li>Logout</li></a>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">Logged in as {{ session['username'] }}</li>
+          <a href="/logout"><li class="nav-item">Logout</li></a>
         </ul>
       {% else %}
         <ul>
@@ -38,6 +100,8 @@
       {% endif %}
       </nav>
     </header>
+    #}
+
     <div class="flashes-container">
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}

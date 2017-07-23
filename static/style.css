@@ -1,14 +1,16 @@
 body {
   background-color: #7FAA94;
   background-color: #d4d6d8;
-  color: #216241;
-  font-family: monospace;
+  /*color: #216241;
+  font-family: monospace;*/
 }
 
 a:link {
-  color: #7B882D;
+  color: rebeccapurple;
+  /*color: #7B882D;*/
 }
 
 a:visited {
-  color: #578F73;
+  color: black;
+  /*color: #578F73;*/
 }
