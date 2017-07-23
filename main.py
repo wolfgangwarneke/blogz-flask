@@ -1,3 +1,5 @@
+import json
+
 from flask import request, redirect, render_template, session, flash, url_for
 from sqlalchemy import exc, func
 
@@ -98,6 +100,35 @@ def register():
                 flash("Username must be at least 3 characters", "error")
             return render_template('register.html')
     else:
+        return render_template('register.html')
+
+@app.route("/register/ajax", methods=["POST"])
+def register_AJAX():
+    username = request.form['username']
+    password = request.form['password']
+    password_confirm = request.form['password-confirm']
+    if password == password_confirm and not User.query.filter_by(username=username).first() and len(username) > 3:
+        new_user = User(username, make_pw_hash(password))
+        db.session.add(new_user)
+        try:
+            db.session.commit()
+            flash("Registered as {}".format(new_user.username), "success")
+            data = {"name": new_user.username}
+            return json.dumps(data)
+        except exc.SQLAlchemyError:
+            flash("Unable to add user", "error")
+            # TODO return form values
+            return render_template('register.html')
+    else:
+        if User.query.filter_by(username=username).first():
+            flash("User already exists")
+            return render_template('register.html')
+        if len(password) <= 6:
+            flash("Password must be at least 6 characters.", "error")
+        if not password == password_confirm:
+            flash("Password confirmation must match password.", "error")
+        if len(username) <= 3:
+            flash("Username must be at least 3 characters", "error")
         return render_template('register.html')
 
 
