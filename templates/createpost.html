@@ -4,7 +4,10 @@
 
 {% if session['username'] %}
 <div class="row">
-  <div class="col-sm-8 offset-sm-2">
+  <div class="col-sm-3 pull-left-4em">
+      Write a new post to tell your story to the world!
+  </div>
+  <div class="col-sm-8">
     <form class="" action="/user/{{session['username']}}/newpost" method="post">
       <div class="form-group">
         <label for="title">Title</label>

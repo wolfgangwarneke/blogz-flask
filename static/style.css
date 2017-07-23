@@ -5,9 +5,7 @@ font-family: 'Questrial', sans-serif;*/
 
 body {
   margin-top: 4.6em;
-  background-color: #7FAA94;
-  background-color: #d4d6d8;
-  /*color: #216241;*/
+  background-color: #e0e2e4;
   font-family: 'Questrial', sans-serif;
 }
 
@@ -71,4 +69,8 @@ label {
 .bg-light-grey:hover {
   background-color: #ddaab7;
   transition: background-color 0.3s;
+}
+
+.pull-left-4em {
+  margin-left: -4em;
 }
