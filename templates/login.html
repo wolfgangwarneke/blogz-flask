@@ -3,11 +3,22 @@
 {% block content %}
 
 {% if not session["username"] %}
-<form class="" action="/login" method="post">
-  <label for="username">Username</label><input type="text" name="username" value=""><br>
-  <label for="password">Password</label><input type="password" name="password" value=""></br>
-  <input type="submit" value="LOGIN">
-</form>
+<div class="row">
+  <div class="col-sm-6 offset-sm-3">
+    <form class="" action="/login" method="post">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Username</label>
+        <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="usernameHelp" placeholder="Enter your username">
+        <small id="usernameHelp" class="form-text text-muted">Your username is how we log you in.</small>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
 {% else %}
   (Psssst..... you are already logged in)
 {% endif %}

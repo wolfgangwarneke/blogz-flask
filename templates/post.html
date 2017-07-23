@@ -3,21 +3,33 @@
 {% block content %}
 
 {% if post %}
-  <h2>{{post.title}}</h2>
-  <h5>by <a href="/user/{{post.owner.username}}">{{post.owner.username}}</a></h5>
-  <p>{{post.content}}</p>
-  {% if post.owner.username == session['username'] %}
-    {% if post.published == False %}
+<div class="row">
+  <div class="col-sm-8 blog-main">
+    <h2>{{post.title}}</h2>
+    <h5>by <a href="/user/{{post.owner.username}}">{{post.owner.username}}</a></h5>
+    <p>{{post.content}}</p>
+    {% if post.owner.username == session['username'] %}
+      {% if post.published == False %}
+        <form class="" action="/post/{{post.id}}/update" method="post">
+          <input type="submit" name="publish" value="PUBLISH">
+        </form>
+      {% else %}
       <form class="" action="/post/{{post.id}}/update" method="post">
-        <input type="submit" name="publish" value="PUBLISH">
+        <input type="submit" name="publish" value="UNPUBLISH">
       </form>
-    {% else %}
-    <form class="" action="/post/{{post.id}}/update" method="post">
-      <input type="submit" name="publish" value="UNPUBLISH">
-    </form>
+      {% endif %}
     {% endif %}
-  {% endif %}
-  <footer>post viewed {{post.visits}} times</footer>
+    <footer>post viewed {{post.visits}} times</footer>
+  </div>
+  <div class="col-sm-3 offset-sm-1 blog-sidebar">
+    <h4>More posts by {{post.owner.username}}</h4>
+    <ul>
+    {% for post in post.owner.posts %}
+      <li><a href="/post/{{post.id}}">{{post.title}}</a></li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
 {% endif %}
 
 {% endblock %}

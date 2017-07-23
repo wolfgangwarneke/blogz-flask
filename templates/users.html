@@ -7,12 +7,18 @@
   {% endblock %}
 
 {% if users %}
-  <div class="users">
-    {% for user in users %}
-    <div>
-      {{loop.index}}. <a href="/user/{{user.username}}">{{user.username}}</a>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="users">
+        <h3>Users</h3>
+        <h5 class="float-right">Check out who else uses <span class="logo">Blogz</span></h5>
+        {% for user in users %}
+        <div>
+          {{loop.index}}. <a href="/user/{{user.username}}">{{user.username}}</a>
+        </div>
+        {% endfor %}
+      </div>
     </div>
-    {% endfor %}
   </div>
 {% else %}
   <h1>No users yet!</h1>

@@ -5,10 +5,20 @@
 {% if posts %}
   {% if author %}
     <h3>Posts by <a href="/user/{{author}}">{{author}}</a></h3>
+  {% else %}
+    <h3>Check out some <span class="logo smaller">Blogz</span> posts!</h3>
   {% endif %}
   <ul>
   {% for post in posts %}
-    <li><a href="/post/{{post.id}}">{{post.title}}</a>: by <a href="/user/{{post.owner.username}}">{{post.owner.username}}</a> {{post.content|truncate(54)}}</li>
+    <li class="clearfix">
+      <div>
+        <a href="/post/{{post.id}}" class="font-weight-bold">{{post.title}}</a> by <a href="/user/{{post.owner.username}}" class="font-italic">{{post.owner.username}}</a>
+      </div>
+      <div class="px-3 d-inline-block float-left">
+        {{post.content|truncate(54)}}
+        <a href="/post/{{post.id}}"><span class="badge badge-default px-1 bg-light-grey">more</span></a>
+      </div>
+    </li>
   {% endfor %}
   </ul>
 {% else %}

@@ -1,17 +1,74 @@
+/*fonts:
+font-family: 'Gloria Hallelujah', cursive;
+font-family: 'Josefin Sans', sans-serif;
+font-family: 'Questrial', sans-serif;*/
+
 body {
-  margin-top: 4em;
+  margin-top: 4.6em;
   background-color: #7FAA94;
   background-color: #d4d6d8;
-  /*color: #216241;
-  font-family: monospace;*/
+  /*color: #216241;*/
+  font-family: 'Questrial', sans-serif;
 }
 
 a:link {
   color: rebeccapurple;
-  /*color: #7B882D;*/
+
 }
 
 a:visited {
   color: black;
   /*color: #578F73;*/
+}
+
+.logo {
+  color: rebeccapurple;
+}
+
+.gloria-font, .logo {
+  font-family: 'Gloria Hallelujah', cursive;
+}
+
+.josefin-font, label {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.questrial-font, .nav-link, button, textarea, input {
+  font-family: 'Questrial', sans-serif;
+}
+
+.nav-link:hover {
+  color: pink !important;
+  transition: color 0.8s;
+}
+
+.nav-link #newpost {
+  color: rgb(180, 180, 180);
+}
+
+.nav-link #newpost:hover {
+  color: rgb(255, 232, 102) !important;
+  transition: color 0.6s ease;
+}
+
+label {
+  font-weight: bolder;
+}
+
+.black {
+  color: black;
+}
+
+.smaller {
+  font-size: 1.4rem;
+}
+
+.bg-light-grey {
+  background-color: #a9a9a9;
+  transition: background-color 0.2s;
+}
+
+.bg-light-grey:hover {
+  background-color: #ddaab7;
+  transition: background-color 0.3s;
 }
