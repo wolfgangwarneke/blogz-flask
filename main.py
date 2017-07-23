@@ -38,6 +38,7 @@ def user_logged_in(username):
 @app.route("/")
 @app.route("/home")
 def index():
+    flash("Welcome home.", "greeting")
     users = User.query.limit(20).all()
     # encoded_error = request.args.get("error")
     return render_template('home.html', users=users)
@@ -67,7 +68,10 @@ def logout():
         del session['username']
         flash("Log in again?", "suggestion")
     except KeyError:
+        flash("Testing!", "error")
+        flash("Testing moar!", "success")
         flash("You are already logged out!", "error")
+        flash("Oh wow, Blogz iz so kewl", "random")
     return render_template('login.html')
 
 @app.route("/register", methods=["GET", "POST"])
@@ -171,6 +175,7 @@ def update_post(id):
 
 @app.route("/posts")
 def all_posts():
+    flash("Posts is where you can see what the community has to offer!", "info")
     posts = Post.query.filter_by(published=True).all()
     return render_template('posts.html', posts=posts)
 

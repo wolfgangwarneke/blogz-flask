@@ -57,60 +57,6 @@
     </nav>
 
 
-
-
-    {#
-    <header class="navbar navbar-inverse bg-primary">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="#">Blogz</a>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <nav>
-          <ul class="navbar-nav mr-auto">
-            <a href="/users"><li class="nav-item">Users</li></a>
-            <a href="/posts"><li class="nav-item">Posts</li></a>
-            {% if session['username'] %}
-            <a href="/user/{{session['username']}}"><li class="nav-item">My Posts</li></a>
-            <a href="/user/{{session['username']}}/newpost"><li class="nav-item">New Post</li></a>
-            {% endif %}
-          </ul>
-        </nav>
-      </div>
-      <div class="searchbar">
-        <form class="" action="/search" method="get">
-          <input type="text" name="query" value="">
-          <input type="submit" value="Search">
-        </form>
-      </div>
-      <nav class="login">
-      {% if session['username'] %}
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">Logged in as {{ session['username'] }}</li>
-          <a href="/logout"><li class="nav-item">Logout</li></a>
-        </ul>
-      {% else %}
-        <ul>
-          <a href="/login"><li>Login</li></a>
-          <a href="/register"><li>Register</li></a>
-        </ul>
-      {% endif %}
-      </nav>
-    </header>
-    #}
-
-    <div class="container">
-      {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          <ul class="flashes">
-          {% for category, message in messages %}
-            <li class="{{ category }}">{{ category|upper }}: {{ message }}</li>
-          {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
-    </div>
-
     <div class="container">
     {% block content %}
     {% endblock %}
@@ -131,9 +77,9 @@
           <div class="modal-body" id="modalBody">
             {% if not session["username"] %}
             <form class="" action="/register/ajax" method="post" id="registrationForm">
-              <label for="username" class="px-1">Username</label><input type="text" name="username" value=""><br>
-              <label for="password" class="px-1">Password</label><input type="password" name="password" value=""></br>
-              <label for="password-confirm" class="px-1">Confirm Password</label><input type="password" name="password-confirm" value=""></br>
+              <label for="username" class="px-1">Username</label><input type="text" name="username" value="" required><br>
+              <label for="password" class="px-1">Password</label><input type="password" name="password" value="" required></br>
+              <label for="password-confirm" class="px-2">Confirm Password</label><input type="password" name="password-confirm" value="" required></br>
 
             {% else %}
               (You know you already have an account... right?)
@@ -147,46 +93,79 @@
       </div>
     </div>
 
+    <footer class="fixed-bottom">
+      <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes float-right hidden">
+            {% for category, message in messages %}
+              {% if category == "error" %}
+                <li class="{{category}} flash clearfix d-block">{{ category|upper }}: {{ message }}<span class="remove badge badge-danger ml-2 py-1">X</span></li>
+              {% elif category == "success" %}
+                <li class="{{category}} flash clearfix d-block">{{ category|upper }}: {{ message }}<span class="remove badge badge-success ml-2 py-1">X</span></li>
+              {% else %}
+                <li class="{{category}} flash clearfix d-block">{{ category|upper }}: {{ message }}<span class="remove badge badge-info ml-2 py-1">X</span></li>
+              {% endif %}
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+      </div>
+    </footer>
+
     <script>
-    // Attach a submit handler to the form
-    $( "#registrationForm" ).submit(function( event ) {
-
-      // Stop form from submitting normally
-      event.preventDefault();
-
-      // Get some values from elements on the page:
-      var $form = $( this ),
-        username = $form.find( "input[name='username']" ).val(),
-        pword = $form.find( "input[name='password']" ).val(),
-        pwordConf = $form.find( "input[name='password-confirm']" ).val(),
-        url = $form.attr( "action" );
-
-      // Send the data using post
-      var posting = $.post( url, { "username": username,
-                                   "password": pword,
-                                   "password-confirm": pwordConf } );
-
-
-      posting.done(function( data ) {
-        $modalBody = $('#modalBody');
-        $modalFooter = $('#modalFooter');
-        $modalBody.empty();
-        $modalFooter.empty();
-        contentJSON = JSON.parse(data)
-        $modalBody.html("<h1>Success!</h1><p>You have successfully signed up as <span class='font-italic px-1'>" + contentJSON.name + "</span>!  Why not log in and write your first <span class='logo'>Blogz</span> post???</p><form action='/login' method='post'><label for='username' required>Username</label><input type='text' name='username'><br><label for='password'>Password</label><input type='password' name='password' required><br><button type'submit'>Log In</button></form>");
-        footerHTML = `
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Cool.</button>
-        `
-        $modalFooter.html(footerHTML);
-        console.log(data);
-        //alert("Success?!?!?");
+    $(function() {
+      console.log( "jQuery standing by!" );
+      $('.flashes').fadeIn(1200);
+      $('span.remove').click(function() {
+        $(this).closest('li').fadeOut( "slow", function() {
+            $(this).remove();
+        });;
       });
-      // Put the results in a div
-      //posting.done(function( data ) {
-      //  var content = $( data ).find( "#content" );
-      //  $( "#result" ).empty().append( content );
-      //});
+
+      // Attach a submit handler to the form
+
+      $( "#registrationForm" ).submit(function( event ) {
+
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        // Get some values from elements on the page:
+        var $form = $( this ),
+          username = $form.find( "input[name='username']" ).val(),
+          pword = $form.find( "input[name='password']" ).val(),
+          pwordConf = $form.find( "input[name='password-confirm']" ).val(),
+          url = $form.attr( "action" );
+
+        // Send the data using post
+        var posting = $.post( url, { "username": username,
+                                     "password": pword,
+                                     "password-confirm": pwordConf } );
+
+
+        posting.done(function( data ) {
+          $modalBody = $('#modalBody');
+          $modalFooter = $('#modalFooter');
+          $modalBody.empty();
+          $modalFooter.empty();
+          contentJSON = JSON.parse(data)
+          $modalBody.html("<h1>Success!</h1><p>You have successfully signed up as <span class='font-italic px-1'>" + contentJSON.name + "</span>!  Why not log in and write your first <span class='logo'>Blogz</span> post???</p><form action='/login' method='post'><label for='username' required>Username</label><input type='text' name='username'><br><label for='password'>Password</label><input type='password' name='password' required><br><button type'submit'>Log In</button></form>");
+          footerHTML = `
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cool.</button>
+          `
+          $modalFooter.html(footerHTML);
+          console.log(data);
+          //alert("Success?!?!?");
+        });
+        // Put the results in a div
+        //posting.done(function( data ) {
+        //  var content = $( data ).find( "#content" );
+        //  $( "#result" ).empty().append( content );
+        //});
+      });
     });
+
+
     </script>
   </body>
 </html>

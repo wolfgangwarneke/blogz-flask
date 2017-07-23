@@ -74,3 +74,11 @@ label {
 .pull-left-4em {
   margin-left: -4em;
 }
+
+.hidden {
+  display: none;
+}
+
+.flashes {
+  list-style: none;
+}
