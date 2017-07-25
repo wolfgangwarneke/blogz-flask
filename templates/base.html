@@ -103,6 +103,8 @@
                 <li class="{{category}} flash clearfix d-block">{{ category|upper }}: {{ message }}<span class="remove badge badge-danger ml-2 py-1">X</span></li>
               {% elif category == "success" %}
                 <li class="{{category}} flash clearfix d-block">{{ category|upper }}: {{ message }}<span class="remove badge badge-success ml-2 py-1">X</span></li>
+              {% elif category == "warning" %}
+                <li class="{{category}} flash clearfix d-block">{{ category|upper }}: {{ message }}<span class="remove badge badge-warning ml-2 py-1">X</span></li>
               {% else %}
                 <li class="{{category}} flash clearfix d-block">{{ category|upper }}: {{ message }}<span class="remove badge badge-info ml-2 py-1">X</span></li>
               {% endif %}

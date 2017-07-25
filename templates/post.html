@@ -10,16 +10,16 @@
     <p>{{post.content}}</p>
     {% if post.owner.username == session['username'] %}
       {% if post.published == False %}
-        <form class="" action="/post/{{post.id}}/update" method="post">
-          <input type="submit" name="publish" value="PUBLISH">
+        <form class="mb-2" action="/post/{{post.id}}/update" method="post">
+          <input type="submit" name="publish" value="PUBLISH" class="btn-primary px-3">
         </form>
       {% else %}
-      <form class="" action="/post/{{post.id}}/update" method="post">
-        <input type="submit" name="publish" value="UNPUBLISH">
+      <form class="mb-2" action="/post/{{post.id}}/update" method="post">
+        <input type="submit" name="publish" value="UNPUBLISH" class="btn-warning">
       </form>
       {% endif %}
     {% endif %}
-    <footer>post viewed {{post.visits}} times</footer>
+    <footer class="midgrey font-italic py-2">post viewed {{post.visits}} times</footer>
   </div>
   <div class="col-sm-3 offset-sm-1 blog-sidebar">
     <h4>More posts by {{post.owner.username}}</h4>

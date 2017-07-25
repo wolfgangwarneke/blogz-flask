@@ -147,7 +147,7 @@ def new_post(username):
             new_post = Post(title, content, get_current_user())
             db.session.add(new_post)
             db.session.commit()
-            return redirect('/')
+            return render_template('post.html', post=new_post)
     else: # GET REQUEST
         if username == session['username']:
             return render_template('createpost.html')
@@ -162,6 +162,10 @@ def update_post(id):
         post = Post.query.filter_by(id=id).first()
         if post:
             post.published = not post.published
+            if post.published:
+                flash("{} is now published".format(post.title), "success")
+            else:
+                flash("You have unpublished {}".format(post.title), "warning")
             db.session.commit()
             return redirect("/post/{}".format(id))
         else:

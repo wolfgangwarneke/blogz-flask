@@ -86,3 +86,7 @@ label {
 .flashes {
   list-style: none;
 }
+
+.flash .badge {
+  cursor: pointer;
+}
