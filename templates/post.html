@@ -24,8 +24,10 @@
   <div class="col-sm-3 offset-sm-1 blog-sidebar">
     <h4>More posts by {{post.owner.username}}</h4>
     <ul>
-    {% for post in post.owner.posts %}
-      <li><a href="/post/{{post.id}}">{{post.title}}</a></li>
+    {% for otherpost in post.owner.posts %}
+      {% if not otherpost.id == post.id %}
+        <li><a href="/post/{{post.id}}">{{otherpost.title}}</a></li>
+      {% endif %}
     {% endfor %}
     </ul>
   </div>
